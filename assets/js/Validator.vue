@@ -4,11 +4,12 @@
       <div class="form-group">
         <select v-model="ruleType" class="form-control" @change="clearData">
           <option value="">--Select rule--</option>
-          <option value="minLength" v-if="!inRulesArray('minLength')">Minimum amount of characters</option>
-          <option value="maxLength" v-if="!inRulesArray('maxLength')">Maximum amount of characters</option>
-          <option value="nthIsANumber">The n-th character is always a number</option>
-          <option value="nthIsALetter">The n-th character is always a letter</option>
-          <option value="nthIs">N-th symbol is ...</option>
+          <template v-for="(rule, key, index) in rules">
+            <template v-if="rule.select.removeWhenSelect">
+              <option :value="key" v-if="!inRulesArray(key)">{{rule.select.label}}</option>
+            </template>
+            <option :value="key" v-else>{{rule.select.label}}</option>
+          </template>
         </select>
       </div>
       <div class="form-group">
@@ -16,39 +17,13 @@
       </div>
 
       <!--Rules inputs-->
-      <template v-if="ruleType == 'minLength'">
-        <div class="form-group">
-          <label>Minimum amount of characters</label>
-          <input type="number" class="form-control" v-model="data.minLength" required>
-        </div>
-      </template>
-      <template v-if="ruleType == 'maxLength'">
-        <div class="form-group">
-          <label>Maximum amount of characters</label>
-          <input type="number" class="form-control" v-model="data.maxLength" required>
-        </div>
-      </template>
-      <template v-if="ruleType == 'nthIsANumber'">
-        <div class="form-group">
-          <label>Symbol position</label>
-          <input type="number" class="form-control" v-model="data.position" required>
-        </div>
-      </template>
-      <template v-if="ruleType == 'nthIsALetter'">
-        <div class="form-group">
-          <label>Symbol position</label>
-          <input type="number" class="form-control" v-model="data.position" required>
-        </div>
-      </template>
-      <template v-else-if="ruleType == 'nthIs'">
-        <div class="form-group">
-          <label>Symbol position</label>
-          <input type="number" class="form-control" v-model="data.position" required>
-        </div>
-        <div class="form-group">
-          <label>Symbol</label>
-          <input type="text" class="form-control" v-model="data.symbol" required>
-        </div>
+      <template v-for="(rule, key, index) in rules">
+        <template v-for="field in rule.fields" v-if="key == ruleType">
+          <div class="form-group">
+            <label>{{field.label}}</label>
+            <input type="text" class="form-control" v-model="data[field.name]" :required="field.required">
+          </div>
+        </template>
       </template>
     </form>
 
@@ -68,15 +43,11 @@
 </template>
 
 <script>
-  import rules from './rules/index';
-
   export default {
-    props: ['text'],
-    mixins: [rules],
+    props: ['text', 'rules'],
     data() {
       return {
         ruleType: '',
-        rules: rules,
         activeRules: [],
         data: {}
       }
@@ -93,7 +64,7 @@
       addRule() {
         this.activeRules.push({
           type: this.ruleType,
-          rule: new this.rules[this.ruleType](this.data)
+          rule: new this.rules[this.ruleType].rule(this.data)
         });
         this.ruleType = '';
         this.data = {};

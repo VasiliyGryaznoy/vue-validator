@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,11 +72,13 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Validator_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rules_id__ = __webpack_require__(1);
 Vue.config.debug = true;
 Vue.config.silent = false;
 Vue.config.devtools = true;
+
 
 
 
@@ -87,7 +89,8 @@ Vue.config.devtools = true;
   },
   data: {
     message: '',
-    errors: []
+    errors: [],
+    validationRules: __WEBPACK_IMPORTED_MODULE_1__rules_id__["a" /* default */]
   },
   methods: {
     handleErrors: function handleErrors(data) {
@@ -101,23 +104,95 @@ Vue.config.devtools = true;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__minLength__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maxLength__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__nthIsANumber__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__nthIsALetter__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__nthIs__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__items_minLength__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__items_maxLength__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__items_nthIsANumber__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__items_nthIsALetter__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__items_nthIs__ = __webpack_require__(4);
 
 
 
 
 
+// import nthIsA from './items/nthIsA';
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  'minLength': __WEBPACK_IMPORTED_MODULE_0__minLength__["a" /* default */],
-  'maxLength': __WEBPACK_IMPORTED_MODULE_1__maxLength__["a" /* default */],
-  'nthIsANumber': __WEBPACK_IMPORTED_MODULE_2__nthIsANumber__["a" /* default */],
-  'nthIsALetter': __WEBPACK_IMPORTED_MODULE_3__nthIsALetter__["a" /* default */],
-  'nthIs': __WEBPACK_IMPORTED_MODULE_4__nthIs__["a" /* default */]
+  'minLength': {
+    rule: __WEBPACK_IMPORTED_MODULE_0__items_minLength__["a" /* default */],
+    select: {
+      label: 'Minimum amount of characters',
+      removeWhenSelect: true
+    },
+    fields: [{
+      name: 'minLength',
+      label: 'Minimum amount of characters',
+      required: true
+    }]
+  },
+  'maxLength': {
+    rule: __WEBPACK_IMPORTED_MODULE_1__items_maxLength__["a" /* default */],
+    select: {
+      label: 'Maximum amount of characters',
+      removeWhenSelect: true
+    },
+    fields: [{
+      name: 'maxLength',
+      label: 'Maximum amount of characters',
+      required: true
+    }]
+  },
+
+  'nthIsANumber': {
+    rule: __WEBPACK_IMPORTED_MODULE_2__items_nthIsANumber__["a" /* default */],
+    select: {
+      label: 'The n-th character is always a number'
+    },
+    fields: [{
+      name: 'position',
+      label: 'Symbol position',
+      required: true
+    }]
+  },
+  'nthIsALetter': {
+    rule: __WEBPACK_IMPORTED_MODULE_3__items_nthIsALetter__["a" /* default */],
+    select: {
+      label: 'The n-th character is always a letter'
+    },
+    fields: [{
+      name: 'position',
+      label: 'Symbol position',
+      required: true
+    }]
+  },
+  'nthIs': {
+    select: {
+      label: 'N-th symbol is ...'
+    },
+    rule: __WEBPACK_IMPORTED_MODULE_4__items_nthIs__["a" /* default */],
+    fields: [{
+      name: 'position',
+      label: 'Symbol position',
+      required: true
+    }, {
+      name: 'symbol',
+      label: 'Symbol',
+      required: true
+    }]
+  }
+
+  /* 'nthIsA': {
+     rule: nthIsA,
+     select: {
+       label: 'The n-th character is always the A',
+     },
+     fields: [
+       {
+         name: 'position',
+         label: 'Symbol position',
+         required: true
+       }
+     ]
+   },*/
 });
 
 /***/ }),
@@ -219,8 +294,158 @@ var _class = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position),
+        symbol = data.symbol;
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+
+    this.symbol = symbol;
+    if (symbol.length > 1) {
+      this.symbol = symbol[0];
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text[this.position - 1] != this.symbol) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the letter '" + this.symbol + "'";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the letter '" + this.symbol + "'";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position);
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text.length < this.position) {
+        return this.getError();
+      }
+
+      if (!text[this.position - 1].match(/[a-z]/i)) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the letter";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the letter";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position);
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (+text[this.position - 1] != text[this.position - 1]) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the number";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the number";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rules_index__ = __webpack_require__(1);
 //
 //
 //
@@ -265,41 +490,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['text'],
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__rules_index__["a" /* default */]],
+  props: ['text', 'rules'],
   data: function data() {
     return {
       ruleType: '',
-      rules: __WEBPACK_IMPORTED_MODULE_0__rules_index__["a" /* default */],
       activeRules: [],
       data: {}
     };
@@ -317,7 +513,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     addRule: function addRule() {
       this.activeRules.push({
         type: this.ruleType,
-        rule: new this.rules[this.ruleType](this.data)
+        rule: new this.rules[this.ruleType].rule(this.data)
       });
       this.ruleType = '';
       this.data = {};
@@ -350,14 +546,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 5 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)();
+exports = module.exports = __webpack_require__(9)();
 exports.push([module.i, "\n.validator-wrapper {\n  border: 1px solid #b3b2b2;\n  padding: 20px 20px;\n}\n", ""]);
 
 /***/ }),
-/* 6 */
+/* 9 */
 /***/ (function(module, exports) {
 
 /*
@@ -413,18 +609,18 @@ module.exports = function() {
 
 
 /***/ }),
-/* 7 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(10)
+__webpack_require__(13)
 
-var Component = __webpack_require__(8)(
+var Component = __webpack_require__(11)(
   /* script */
-  __webpack_require__(4),
+  __webpack_require__(7),
   /* template */
-  __webpack_require__(9),
+  __webpack_require__(12),
   /* scopeId */
   null,
   /* cssModules */
@@ -451,7 +647,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -508,7 +704,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -549,172 +745,51 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("--Select rule--")]), _vm._v(" "), (!_vm.inRulesArray('minLength')) ? _c('option', {
-    attrs: {
-      "value": "minLength"
-    }
-  }, [_vm._v("Minimum amount of characters")]) : _vm._e(), _vm._v(" "), (!_vm.inRulesArray('maxLength')) ? _c('option', {
-    attrs: {
-      "value": "maxLength"
-    }
-  }, [_vm._v("Maximum amount of characters")]) : _vm._e(), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "nthIsANumber"
-    }
-  }, [_vm._v("The n-th character is always a number")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "nthIsALetter"
-    }
-  }, [_vm._v("The n-th character is always a letter")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "nthIs"
-    }
-  }, [_vm._v("N-th symbol is ...")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("--Select rule--")]), _vm._v(" "), _vm._l((_vm.rules), function(rule, key, index) {
+    return [(rule.select.removeWhenSelect) ? [(!_vm.inRulesArray(key)) ? _c('option', {
+      domProps: {
+        "value": key
+      }
+    }, [_vm._v(_vm._s(rule.select.label))]) : _vm._e()] : _c('option', {
+      domProps: {
+        "value": key
+      }
+    }, [_vm._v(_vm._s(rule.select.label))])]
+  })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('button', {
     staticClass: "btn btn-primary",
     attrs: {
       "disabled": _vm.ruleType == ''
     }
-  }, [_vm._v("Add rule")])]), _vm._v(" "), (_vm.ruleType == 'minLength') ? [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Minimum amount of characters")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.minLength),
-      expression: "data.minLength"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.minLength)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.minLength = $event.target.value
-      }
-    }
-  })])] : _vm._e(), _vm._v(" "), (_vm.ruleType == 'maxLength') ? [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Maximum amount of characters")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.maxLength),
-      expression: "data.maxLength"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.maxLength)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.maxLength = $event.target.value
-      }
-    }
-  })])] : _vm._e(), _vm._v(" "), (_vm.ruleType == 'nthIsANumber') ? [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Symbol position")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.position),
-      expression: "data.position"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.position)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.position = $event.target.value
-      }
-    }
-  })])] : _vm._e(), _vm._v(" "), (_vm.ruleType == 'nthIsALetter') ? [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Symbol position")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.position),
-      expression: "data.position"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.position)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.position = $event.target.value
-      }
-    }
-  })])] : (_vm.ruleType == 'nthIs') ? [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Symbol position")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.position),
-      expression: "data.position"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.position)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.position = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_vm._v("Symbol")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.symbol),
-      expression: "data.symbol"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.data.symbol)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.symbol = $event.target.value
-      }
-    }
-  })])] : _vm._e()], 2), _vm._v(" "), (_vm.activeRules.length > 0) ? _c('div', {
+  }, [_vm._v("Add rule")])]), _vm._v(" "), _vm._l((_vm.rules), function(rule, key, index) {
+    return [_vm._l((rule.fields), function(field) {
+      return (key == _vm.ruleType) ? [_c('div', {
+        staticClass: "form-group"
+      }, [_c('label', [_vm._v(_vm._s(field.label))]), _vm._v(" "), _c('input', {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: (_vm.data[field.name]),
+          expression: "data[field.name]"
+        }],
+        staticClass: "form-control",
+        attrs: {
+          "type": "text",
+          "required": field.required
+        },
+        domProps: {
+          "value": (_vm.data[field.name])
+        },
+        on: {
+          "input": function($event) {
+            if ($event.target.composing) { return; }
+            _vm.$set(_vm.data, field.name, $event.target.value)
+          }
+        }
+      })])] : _vm._e()
+    })]
+  })], 2), _vm._v(" "), (_vm.activeRules.length > 0) ? _c('div', {
     staticClass: "col-md-8"
   }, [_c('p', [_vm._v("Rules:")]), _vm._v(" "), _vm._l((_vm.activeRules), function(ruleItem, index) {
     return _c('ul', [_c('li', [
@@ -741,17 +816,17 @@ if (false) {
 }
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(8);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(11)("ec77c71a", content, false);
+var update = __webpack_require__(14)("ec77c71a", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -767,7 +842,7 @@ if(false) {
 }
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -786,7 +861,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(12)
+var listToStyles = __webpack_require__(15)
 
 /*
 type StyleObject = {
@@ -988,7 +1063,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports) {
 
 /**
@@ -1021,163 +1096,11 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(0);
 
-
-/***/ }),
-/* 14 */,
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _class = function () {
-  function _class(data) {
-    _classCallCheck(this, _class);
-
-    var position = parseInt(data.position);
-
-    this.position = position;
-    if (isNaN(position) || position < 1) {
-      this.minLength = 1;
-    }
-  }
-
-  _createClass(_class, [{
-    key: "validate",
-    value: function validate(text) {
-      text = text.trim();
-
-      if (+text[this.position - 1] != text[this.position - 1]) {
-        return this.getError();
-      }
-    }
-  }, {
-    key: "getError",
-    value: function getError() {
-      return "The " + this.position + " character should be the number";
-    }
-  }, {
-    key: "getRuleText",
-    value: function getRuleText() {
-      return "The " + this.position + " character is always the number";
-    }
-  }]);
-
-  return _class;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (_class);
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _class = function () {
-  function _class(data) {
-    _classCallCheck(this, _class);
-
-    var position = parseInt(data.position);
-
-    this.position = position;
-    if (isNaN(position) || position < 1) {
-      this.minLength = 1;
-    }
-  }
-
-  _createClass(_class, [{
-    key: "validate",
-    value: function validate(text) {
-      text = text.trim();
-
-      if (text.length < this.position) {
-        return this.getError();
-      }
-
-      if (!text[this.position - 1].match(/[a-z]/i)) {
-        return this.getError();
-      }
-    }
-  }, {
-    key: "getError",
-    value: function getError() {
-      return "The " + this.position + " character should be the letter";
-    }
-  }, {
-    key: "getRuleText",
-    value: function getRuleText() {
-      return "The " + this.position + " character is always the letter";
-    }
-  }]);
-
-  return _class;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (_class);
-
-/***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _class = function () {
-  function _class(data) {
-    _classCallCheck(this, _class);
-
-    var position = parseInt(data.position),
-        symbol = data.symbol;
-
-    this.position = position;
-    if (isNaN(position) || position < 1) {
-      this.minLength = 1;
-    }
-
-    this.symbol = symbol;
-    if (symbol.length > 1) {
-      this.symbol = symbol[0];
-    }
-  }
-
-  _createClass(_class, [{
-    key: "validate",
-    value: function validate(text) {
-      text = text.trim();
-
-      if (text[this.position - 1] != this.symbol) {
-        return this.getError();
-      }
-    }
-  }, {
-    key: "getError",
-    value: function getError() {
-      return "The " + this.position + " character should be the letter '" + this.symbol + "'";
-    }
-  }, {
-    key: "getRuleText",
-    value: function getRuleText() {
-      return "The " + this.position + " character is always the letter '" + this.symbol + "'";
-    }
-  }]);
-
-  return _class;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (_class);
 
 /***/ })
 /******/ ]);

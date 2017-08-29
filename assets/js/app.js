@@ -3,6 +3,7 @@ Vue.config.silent = false;
 Vue.config.devtools = true;
 
 import Validator from './Validator.vue';
+import idRules from './rules/id';
 
 export default new Vue({
   el: '#root',
@@ -11,7 +12,8 @@ export default new Vue({
   },
   data: {
     message: '',
-    errors: []
+    errors: [],
+    validationRules: idRules
   },
   methods: {
     handleErrors(data) {
