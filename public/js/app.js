@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,7 +72,7 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Validator_vue__);
 Vue.config.debug = true;
 Vue.config.silent = false;
@@ -101,17 +101,126 @@ Vue.config.devtools = true;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__minLength__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maxLength__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__nthIsANumber__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__nthIsALetter__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__nthIs__ = __webpack_require__(17);
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  'minLength': __WEBPACK_IMPORTED_MODULE_0__minLength__["a" /* default */],
+  'maxLength': __WEBPACK_IMPORTED_MODULE_1__maxLength__["a" /* default */],
+  'nthIsANumber': __WEBPACK_IMPORTED_MODULE_2__nthIsANumber__["a" /* default */],
+  'nthIsALetter': __WEBPACK_IMPORTED_MODULE_3__nthIsALetter__["a" /* default */],
+  'nthIs': __WEBPACK_IMPORTED_MODULE_4__nthIs__["a" /* default */]
+});
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var maxLength = parseInt(data.maxLength);
+
+    this.maxLength = maxLength;
+    if (isNaN(maxLength) || maxLength < 0) {
+      this.maxLength = 0;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text.length > this.maxLength) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "Maximum amount of characters should be " + this.maxLength;
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "Maximum amount of characters is " + this.maxLength;
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var minLength = parseInt(data.minLength);
+
+    this.minLength = minLength;
+    if (isNaN(minLength) || minLength < 0) {
+      this.minLength = 0;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text.length < this.minLength) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "Minimum amount of characters should be " + this.minLength;
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "Minimum amount of characters is " + this.minLength;
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rules_index__ = __webpack_require__(1);
 //
 //
 //
@@ -182,12 +291,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['text'],
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__rules_index__["a" /* default */]],
   data: function data() {
     return {
       ruleType: '',
-      rules: [],
+      rules: __WEBPACK_IMPORTED_MODULE_0__rules_index__["a" /* default */],
+      activeRules: [],
       data: {}
     };
   },
@@ -198,28 +311,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
-    addRule: function addRule() {
-      this.rules.push({
-        type: this.ruleType,
-        data: this.data,
-        errors: []
-      });
-
+    clearData: function clearData() {
       this.data = {};
+    },
+    addRule: function addRule() {
+      this.activeRules.push({
+        type: this.ruleType,
+        rule: new this.rules[this.ruleType](this.data)
+      });
       this.ruleType = '';
+      this.data = {};
       this.validate();
     },
     removeRule: function removeRule(index) {
-      this.rules.splice(index, 1);
+      this.activeRules.splice(index, 1);
       this.validate();
     },
     validate: function validate() {
       this.errors = [];
 
-      for (var i = 0; i < this.rules.length; i++) {
-        var rule = this.rules[i];
+      for (var i = 0; i < this.activeRules.length; i++) {
+        var rule = this.activeRules[i].rule;
 
-        var error = this[rule.type](rule.data);
+        var error = rule.validate(this.text);
         if (error) {
           this.errors.push(error);
         }
@@ -227,62 +341,90 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.$emit('throw-errors', { errors: this.errors });
     },
-    inRules: function inRules(ruleName) {
-      return this.rules.findIndex(function (rule) {
+    inRulesArray: function inRulesArray(ruleName) {
+      return this.activeRules.findIndex(function (rule) {
         return rule.type === ruleName;
       }) != -1;
-    },
-    minLength: function minLength(data) {
-      var text = this.text.trim();
-
-      if (text.length < data.minLength) {
-        return 'Minimum amount of characters is ' + data.minLength;
-      }
-    },
-    maxLength: function maxLength(data) {
-      var text = this.text.trim();
-
-      if (text.length > data.maxLength) {
-        return 'Maximum amount of characters is ' + data.maxLength;
-      }
-    },
-    nthIsANumber: function nthIsANumber(data) {
-      var text = this.text.trim();
-
-      if (+text[data.position - 1] != text[data.position - 1]) {
-        return 'The ' + data.position + ' character is always a number';
-      }
-    },
-    nthIsALetter: function nthIsALetter(data) {
-      var text = this.text.trim();
-
-      if (!text[data.position - 1].match(/[a-z]/i)) {
-        return 'The ' + data.position + ' character is always a letter';
-      }
-    },
-    nthIs: function nthIs(data) {
-      var text = this.text.trim();
-
-      if (text[data.position - 1] != data.symbol) {
-        return 'The ' + data.position + ' character is always the letter ' + data.symbol;
-      }
     }
   }
 });
 
 /***/ }),
-/* 2 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+exports.push([module.i, "\n.validator-wrapper {\n  border: 1px solid #b3b2b2;\n  padding: 20px 20px;\n}\n", ""]);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(8)
+__webpack_require__(10)
 
-var Component = __webpack_require__(3)(
+var Component = __webpack_require__(8)(
   /* script */
-  __webpack_require__(1),
-  /* template */
   __webpack_require__(4),
+  /* template */
+  __webpack_require__(9),
   /* scopeId */
   null,
   /* cssModules */
@@ -309,7 +451,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 3 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -366,12 +508,22 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 4 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-6 validator-wrapper"
+  }, [_c('form', {
+    attrs: {
+      "action": ""
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.addRule($event)
+      }
+    }
   }, [_c('div', {
     staticClass: "form-group"
   }, [_c('select', {
@@ -383,7 +535,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     on: {
-      "change": function($event) {
+      "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
           return o.selected
         }).map(function(o) {
@@ -391,17 +543,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return val
         });
         _vm.ruleType = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
+      }, _vm.clearData]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }, [_vm._v("--Select rule--")]), _vm._v(" "), (!_vm.inRules('minLength')) ? _c('option', {
+  }, [_vm._v("--Select rule--")]), _vm._v(" "), (!_vm.inRulesArray('minLength')) ? _c('option', {
     attrs: {
       "value": "minLength"
     }
-  }, [_vm._v("Minimum amount of characters")]) : _vm._e(), _vm._v(" "), (!_vm.inRules('maxLength')) ? _c('option', {
+  }, [_vm._v("Minimum amount of characters")]) : _vm._e(), _vm._v(" "), (!_vm.inRulesArray('maxLength')) ? _c('option', {
     attrs: {
       "value": "maxLength"
     }
@@ -423,9 +575,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-primary",
     attrs: {
       "disabled": _vm.ruleType == ''
-    },
-    on: {
-      "click": _vm.addRule
     }
   }, [_vm._v("Add rule")])]), _vm._v(" "), (_vm.ruleType == 'minLength') ? [_c('div', {
     staticClass: "form-group"
@@ -438,7 +587,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.minLength)
@@ -460,7 +610,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.maxLength)
@@ -482,7 +633,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.position)
@@ -504,7 +656,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.position)
@@ -526,7 +679,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.position)
@@ -548,7 +702,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "required": ""
     },
     domProps: {
       "value": (_vm.data.symbol)
@@ -559,17 +714,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.data.symbol = $event.target.value
       }
     }
-  })])] : _vm._e(), _vm._v(" "), (_vm.rules.length > 0) ? _c('div', {
+  })])] : _vm._e()], 2), _vm._v(" "), (_vm.activeRules.length > 0) ? _c('div', {
     staticClass: "col-md-8"
-  }, [_c('p', [_vm._v("Rules:")]), _vm._v(" "), _vm._l((_vm.rules), function(rule, index) {
-    return _c('ul', [_c('li', [(rule.type == 'minLength') ? [_vm._v("\n          Minimum amount of characters is " + _vm._s(rule.data.minLength) + "\n        ")] : (rule.type == 'maxLength') ? [_vm._v("\n          Maximum amount of characters is " + _vm._s(rule.data.maxLength) + "\n        ")] : (rule.type == 'nthIsANumber') ? [_vm._v("\n          The " + _vm._s(rule.data.position) + " character is always a number\n        ")] : (rule.type == 'nthIsALetter') ? [_vm._v("\n          The " + _vm._s(rule.data.position) + " character is always a letter\n        ")] : (rule.type == 'nthIs') ? [_vm._v("\n          The " + _vm._s(rule.data.position) + " character is always the letter '" + _vm._s(rule.data.symbol) + "'\n        ")] : _vm._e(), _vm._v(" "), _c('button', {
-      on: {
-        "click": function($event) {
-          _vm.removeRule(index)
+  }, [_c('p', [_vm._v("Rules:")]), _vm._v(" "), _vm._l((_vm.activeRules), function(ruleItem, index) {
+    return _c('ul', [_c('li', [
+      [_c('span', [_vm._v(_vm._s(ruleItem.rule.getRuleText()))])], _vm._v(" "), _c('button', {
+        staticClass: "btn btn-warning",
+        attrs: {
+          "title": "Remove rule"
+        },
+        on: {
+          "click": function($event) {
+            _vm.removeRule(index)
+          }
         }
-      }
-    }, [_vm._v("X")])], 2)])
-  })], 2) : _vm._e()], 2)
+      }, [_vm._v("X")])
+    ], 2)])
+  })], 2) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -580,87 +741,17 @@ if (false) {
 }
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(0);
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n.validator-wrapper {\n  border: 1px solid #b3b2b2;\n  padding: 20px 20px;\n}\n", ""]);
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(6);
+var content = __webpack_require__(5);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(9)("ec77c71a", content, false);
+var update = __webpack_require__(11)("ec77c71a", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -676,7 +767,7 @@ if(false) {
 }
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -695,7 +786,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(10)
+var listToStyles = __webpack_require__(12)
 
 /*
 type StyleObject = {
@@ -897,7 +988,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports) {
 
 /**
@@ -928,6 +1019,165 @@ module.exports = function listToStyles (parentId, list) {
   return styles
 }
 
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(0);
+
+
+/***/ }),
+/* 14 */,
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position);
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (+text[this.position - 1] != text[this.position - 1]) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the number";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the number";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position);
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text.length < this.position) {
+        return this.getError();
+      }
+
+      if (!text[this.position - 1].match(/[a-z]/i)) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the letter";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the letter";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _class = function () {
+  function _class(data) {
+    _classCallCheck(this, _class);
+
+    var position = parseInt(data.position),
+        symbol = data.symbol;
+
+    this.position = position;
+    if (isNaN(position) || position < 1) {
+      this.minLength = 1;
+    }
+
+    this.symbol = symbol;
+    if (symbol.length > 1) {
+      this.symbol = symbol[0];
+    }
+  }
+
+  _createClass(_class, [{
+    key: "validate",
+    value: function validate(text) {
+      text = text.trim();
+
+      if (text[this.position - 1] != this.symbol) {
+        return this.getError();
+      }
+    }
+  }, {
+    key: "getError",
+    value: function getError() {
+      return "The " + this.position + " character should be the letter '" + this.symbol + "'";
+    }
+  }, {
+    key: "getRuleText",
+    value: function getRuleText() {
+      return "The " + this.position + " character is always the letter '" + this.symbol + "'";
+    }
+  }]);
+
+  return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (_class);
 
 /***/ })
 /******/ ]);
