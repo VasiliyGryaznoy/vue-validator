@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Vue validator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container" id="root">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <form>
+              <div class="form-group">
+                <label>Input text here</label>
+                <input type="text" class="form-control" v-model="message">
+              </div>
+              <ul>
+                <li v-for="error in errors">{{error}}</li>
+              </ul>
+            </form>
+          </div>
+        </div>
+
+        <validator :text="message" @throw-errors="handleErrors"></validator>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"></script>
+  <script src="./public/js/app.js"></script>
+</html>
